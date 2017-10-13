@@ -13,7 +13,7 @@
 				<include name="Regression" />
 			</run>
 		</groups>
-		<classes>
+		<!--<classes>
 			<class name="com.itc.test.LoginPageTest" />
 			<class name="com.itc.test.NewVendorPageTest" />
 			<class name="com.itc.test.EditVendorPageTest" />
@@ -28,7 +28,7 @@
 			<class name="com.itc.test.NewCustomerPageTest"> 
 				
 			</class>
-		</classes>
+		</classes>-->
 
 	</test>
 </suite>
