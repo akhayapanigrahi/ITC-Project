@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Monster Home page Test Suite">
 	
-	<parameter name="browserType" value="FF" />
+	<parameter name="browserType" value="GC" />
 	<test name="Aynax Test" preserve-order="true">
 		<classes>
 			<class name="com.itc.test.HomePageTest" />
