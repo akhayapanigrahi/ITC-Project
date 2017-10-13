@@ -8,7 +8,7 @@
 		  <class name="com.itc.test.LoginPageTest" />
 
 			<class name="com.itc.test.NewVendorPageTest" />
-			<class name="com.itc.test.EditVendorPageTest" />
+			<!--<class name="com.itc.test.EditVendorPageTest" />
 			<class name="com.itc.test.DeleteVendorPageTest" />
 			<class name="com.itc.test.NewExpensePageTest" />
 			<class name="com.itc.test.EditExpensePageTest" />
@@ -21,7 +21,7 @@
 			<class name="com.itc.test.EditJournalPageTest" />
 
 			<class name="com.itc.test.NewInvoicePageTest" />
-			<class name="com.itc.test.NewCustomerPageTest" />
+			<class name="com.itc.test.NewCustomerPageTest" />-->
 		</classes>
 	</test>
 </suite>
