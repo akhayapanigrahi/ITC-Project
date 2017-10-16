@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import microsoft.exchange.webservices.data.core.ExchangeService;
@@ -22,14 +21,13 @@ import microsoft.exchange.webservices.data.credential.ExchangeCredentials;
 import microsoft.exchange.webservices.data.credential.WebCredentials;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
 
-//import edu.apollogrp.logger.Logger;
 
 public class ReportGenerator extends BasePageObject  {
 
-	public ReportGenerator(WebDriver driver) {
+	/*public ReportGenerator(WebDriver driver) {
 		super(driver);
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	/**
 	 * Run the Test report to Generate the jenkin report and send mail 
@@ -47,20 +45,19 @@ public class ReportGenerator extends BasePageObject  {
 //	    	driver.get("http://10.96.52.54:8080/view/FPM/job/fima/");
 		} else{
 			driver.get(REPORT_URL);
-	        Thread.sleep(2000);
+	        Thread.sleep(5000);
 	    	try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		} 
-			
        
-        String build = driver.findElement(By.xpath(".//*[@id='buildHistory']/div[2]//tr[1]/td/div[1]/a")).getText();
+        String build = driver.findElement(By.xpath(".//*[@id='buildHistory']/div[2]//tr[2]/td/div[1]/a")).getText();
         String build1 = build.trim();
         String build2 = build1.substring(1);
         
-        String appUrl = "https://phoenix.edu";
+        String appUrl = "https://www.aynax.com/";
         System.out.println("Build number = "+build2);
 		
 			String env = REPORT_URL+"ws/target/surefire-reports/emailable-report.html";
@@ -68,8 +65,6 @@ public class ReportGenerator extends BasePageObject  {
 			String source = "";
 			StringBuffer stringBuf = new StringBuffer(); 
 			stringBuf.append("<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>TestNG:  Unit Test</title><style type=\"text/css\">table caption,table.info_table,table.param,table.passed,table.failed {margin-bottom:10px;border:1px solid #000099;border-collapse:collapse;empty-cells:show;}table.info_table td,table.info_table th,table.param td,table.param th,table.passed td,table.passed th,table.failed td,table.failed th {border:1px solid #000099;padding:.25em .5em .25em .5em}table.param th {vertical-align:bottom}td.numi,th.numi,td.numi_attn {text-align:right}tr.total td {font-weight:bold}table caption {text-align:center;font-weight:bold;}table.passed tr.stripe td,table tr.passedodd td {background-color: #00AA00;}table.passed td,table tr.passedeven td {background-color: #33FF33;}table.passed tr.stripe td,table tr.skippedodd td {background-color: #cccccc;}table.passed td,table tr.skippedodd td {background-color: #dddddd;}table.failed tr.stripe td,table tr.failedodd td,table.param td.numi_attn {background-color: #FF3333;}table.failed td,table tr.failedeven td,table.param tr.stripe td.numi_attn {background-color: #DD0000;}tr.stripe td,tr.stripe th {background-color: #E6EBF9;}p.totop {font-size:85%;text-align:center;border-bottom:2px black solid}div.shootout {padding:2em;border:3px #4854A8 solid}</style></head><body>");
-
-
 			stringBuf.append("Hi All,");
 			stringBuf.append("<p>Please find the below reports</p>");
 			
@@ -85,7 +80,7 @@ public class ReportGenerator extends BasePageObject  {
 			
 		// Details Report				
 			String body1="";
-			driver.get(REPORT_URL+"com.aptimus.phxedu$phxedu-automation-tests/"+build2+"/testReport/");
+			driver.get(REPORT_URL+"com.itc.test$SeleniumAutomationTest/"+build2+"/testReport/");
 			
 			int mainReportSize = driver.findElements(By.xpath("//*[@id='testresult']/tbody[2]/tr")).size();
 			System.out.println("Main Rpoert--"+mainReportSize);
@@ -128,6 +123,8 @@ public class ReportGenerator extends BasePageObject  {
 							+ body1	
 							+"</table>");
 					body1="";
+					Thread.sleep(2000);
+
 					driver.navigate().back();
 					Thread.sleep(8000);
 					
@@ -135,10 +132,10 @@ public class ReportGenerator extends BasePageObject  {
 			{	
 				System.out.println("Actaul size = "+packageSize);
 				
-				for(int i=1; i<=packageSize; i++){
+				for(int m=1; m<=packageSize; m++){
 					
-				driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr["+i+"]/td[1]/a")).click();
-				System.out.println(i +"--Main Report Clicked");
+				driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr["+m+"]/td[1]/a")).click();
+				System.out.println(m +"--Main Report Clicked");
 				Thread.sleep(8000);
 				
 				int  detailReportSize = driver.findElements(By.xpath("//*[@id='testresult']/tbody[2]/tr")).size();
@@ -161,7 +158,7 @@ public class ReportGenerator extends BasePageObject  {
 					String ts = driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr["+detailReportTable+"]/td[2]")).getText();
 					body1 = body1 + "<tr><td>"+detailReportTable+"</td><td>"+TestCase+"</td><td>"+mark+"</td><td>"+ts+"</td>"+"</tr>";
 				}
-				String  link = "<center><a href="+driver.getCurrentUrl()+">"+ driver.findElement(By.xpath(".//*[@id='main-panel-content']/h1")).getText() +"</a></center>";
+				String  link = "<center><a href="+driver.getCurrentUrl()+">"+ driver.findElement(By.xpath(".//*[@id='main-panel']/h1")).getText() +"</a></center>";
 				stringBuf.append("<br />"+ link
 						+"<table BORDER='1'  WIDTH='70%' align='middle'   CELLPADDING='2' CELLSPACING='1' ><font size='2'><face='Calibri'>"					
 						+ "<tr bgcolor='99CCFF'><td>S.No</td><td>TestCase</td><td>Result</td><td>Time</td></tr>"
@@ -234,12 +231,12 @@ public class ReportGenerator extends BasePageObject  {
 */			
 		    //String to = "Jagadish.Muniswamy@phoenix.edu";
 			
-			String to = "Jagadish.Muniswamy@phoenix.edu,Manoj.Kumar@phoenix.edu,Roopa.Jaganoor@phoenix.edu,Raja.Muthu@phoenix.edu,Satyajit.Samal@phoenix.edu,Sudheer.Ananthaiah@phoenix.edu,Parvatagouda.Patil@phoenix.edu,Amarnath.Buchireddygari@phoenix.edu,Bhagavan.Singireddy@phoenix.edu,Devesh.Rajput@phoenix.edu,Paramesha.GH@phoenix.edu,Srinivas.Myana@phoenix.edu,Vijayalakshmi.R@phoenix.edu,Mohit.Garg@phoenix.edu,Dharmapal.Panwar@phoenix.edu,Gaurav.Baijal@phoenix.edu";
-
+			//String to = "Jagadish.Muniswamy@phoenix.edu,Manoj.Kumar@phoenix.edu,Roopa.Jaganoor@phoenix.edu,Raja.Muthu@phoenix.edu,Satyajit.Samal@phoenix.edu,Sudheer.Ananthaiah@phoenix.edu,Parvatagouda.Patil@phoenix.edu,Amarnath.Buchireddygari@phoenix.edu,Bhagavan.Singireddy@phoenix.edu,Devesh.Rajput@phoenix.edu,Paramesha.GH@phoenix.edu,Srinivas.Myana@phoenix.edu,Vijayalakshmi.R@phoenix.edu,Mohit.Garg@phoenix.edu,Dharmapal.Panwar@phoenix.edu,Gaurav.Baijal@phoenix.edu";
+			String to = "Akshaya.Panigrahi@itcinfotech.com";
 			System.out.println("Enter sendMailViaExchnageService");
 
             ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
-            ExchangeCredentials credentials = new WebCredentials("Jagadish.Muniswamy@phoenix.edu","apollo@19");
+            ExchangeCredentials credentials = new WebCredentials("Akshaya.Panigrahi@itcinfotech.com","Login@216");
             service.setCredentials(credentials);
             service.setUrl(new URI("https://outlook.office365.com/EWS/Exchange.asmx"));
 
@@ -319,11 +316,11 @@ public class ReportGenerator extends BasePageObject  {
 		driver.get(REPORT_URL);
 		Thread.sleep(5000);
 		
-		String build = driver.findElement(By.xpath(".//*[@id='buildHistory']/div[2]//tr[1]/td/div[1]/a")).getText();
+		String build = driver.findElement(By.xpath(".//*[@id='buildHistory']/div[2]//tr[2]/td/div[1]/a")).getText();
 	    String build1 = build.trim();//*[@id='buildHistory']/div[2]//tr[1]/td/div[1]/a.//*[@id='buildHistory']/div[2]//tr[1]/td/div[1]/a
 	    String build2 = build1.substring(1);
 	    
-		driver.get(REPORT_URL+"com.aptimus.phxedu$phxedu-automation-tests/"+build2+"/testReport/");
+		driver.get(REPORT_URL+"com.itc.test$SeleniumAutomationTest/"+build2+"/testReport/");
 		
 		
 		
@@ -335,7 +332,7 @@ public class ReportGenerator extends BasePageObject  {
 		int allFailed = 0;
 		int allSkipped = 0;
 		
-		String totalDuration = driver.findElement(By.xpath("//*[@id='main-panel-content']/div[2]/a")).getText();
+		String totalDuration = driver.findElement(By.xpath("//*[@id='main-panel']/div[2]/a")).getText();
 		totalDuration = totalDuration.replaceAll("Took ", "");
 
 		String Total ="" ;
@@ -360,7 +357,8 @@ public class ReportGenerator extends BasePageObject  {
 			Thread.sleep(7000);
 			int packageSize = driver.findElements(By.xpath("//*[@id='testresult']/tbody[2]/tr/td[1]/a/span")).size();
 			
-			 TestPackage  = driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr/td[1]/a/span")).getText();			 
+			 TestPackage  = driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr/td[1]/a/span")).getText();
+			 Thread.sleep(2000);
 			 Total 	   	  = driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr/td[9]")).getText();			
 			 Failed       = driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr/td[3]")).getText();
 			 Skipped      = driver.findElement(By.xpath("//*[@id='testresult']/tbody[2]/tr/td[5]")).getText();
@@ -423,10 +421,10 @@ public class ReportGenerator extends BasePageObject  {
         int passi,  skipi,  faili;
         driver.get(REPORT_URL);
 		Thread.sleep(2500);
-		String build = driver.findElement(By.xpath(".//*[@id='buildHistory']/div[2]//tr[1]/td/div[1]/a")).getText();
+		String build = driver.findElement(By.xpath(".//*[@id='buildHistory']/div[2]//tr[2]/td/div[1]/a")).getText();
 	    String build1 = build.trim();
 	    String build2 = build1.substring(1);
-		driver.get(REPORT_URL+"com.aptimus.phxedu$phxedu-automation-tests/"+build2+"/testReport/");
+		driver.get(REPORT_URL+"com.itc.test$SeleniumAutomationTest/"+build2+"/testReport/");
 		
         
         int allTotal = 0;
